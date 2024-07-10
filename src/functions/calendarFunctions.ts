@@ -5,28 +5,33 @@
 // prettier-ignore
 type DayNum = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31;
 type MonthIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+type MonthArray = {monthIndex: MonthIndex; monthArray: number[]};
 
 interface Day {
+    key: string;
     day: DayNum;
     isCurrMonth: boolean;
     todoData: string[] | null;
 }
 
-type Week = Day[];
-
-type MonthArray = {monthIndex: MonthIndex; monthArray: number[]};
+type Week = {
+    key: string;
+    dayArray: Day[];
+};
 
 interface Month {
+    key: string;
     monthIndex: MonthIndex;
     monthMatrix: Week[];
 }
 
-type Year = {
+export type Year = {
+    key: string;
     year: number;
     yearMatrix: Month[];
 };
 
-type Interval = Year[];
+export type Interval = Year[];
 
 // ---------------------------------------------------------------- //
 // ------------------ CALENDAR HELPER FUNCTIONS ------------------- //
@@ -70,7 +75,10 @@ const getMonthMatrix = (year: number, month: MonthArray) => {
 
     month.monthArray.forEach(day => {
         const weekDayIndex = getWeekDayIndex(year, month.monthIndex, day as DayNum);
-        monthMatrix[weekIndex]!.push({day: day as DayNum, isCurrMonth: true, todoData: null});
+
+        const key = `${year}-${month.monthIndex}-${day}`;
+        monthMatrix[weekIndex]!.push({key, day: day as DayNum, isCurrMonth: true, todoData: null});
+
         if (weekDayIndex === 6) ++weekIndex;
     });
 
@@ -86,7 +94,9 @@ const getMonthMatrix = (year: number, month: MonthArray) => {
         for (let i = 0; i < extraDays; i++) {
             const DateObj = new Date(year, month.monthIndex, -i);
             const day = DateObj.getDate();
-            monthMatrix[0]!.unshift({day: day as DayNum, isCurrMonth: false, todoData: null});
+
+            const key = `${year}-${month.monthIndex}-${day}-f`;
+            monthMatrix[0]!.unshift({key, day: day as DayNum, isCurrMonth: false, todoData: null});
         }
     }
 
@@ -105,7 +115,9 @@ const getMonthMatrix = (year: number, month: MonthArray) => {
         for (let i = 0; i < extraDays; i++) {
             const DateObj = new Date(year, month.monthIndex + 1, i + 1);
             const day = DateObj.getDate();
-            monthMatrix[4]!.push({day: day as DayNum, isCurrMonth: false, todoData: null});
+
+            const key = `${year}-${month.monthIndex}-${day}-f`;
+            monthMatrix[4]!.push({key, day: day as DayNum, isCurrMonth: false, todoData: null});
         }
     }
 
@@ -121,18 +133,24 @@ const getMonthMatrix = (year: number, month: MonthArray) => {
         for (let i = 0; i < extraDays; i++) {
             const DateObj = new Date(year, month.monthIndex + 1, i + 1 + prevDaysCount);
             const day = DateObj.getDate();
-            monthMatrix[5]!.push({day: day as DayNum, isCurrMonth: false, todoData: null});
+
+            const key = `${year}-${month.monthIndex}-${day}-f`;
+            monthMatrix[5]!.push({key, day: day as DayNum, isCurrMonth: false, todoData: null});
         }
     }
 
-    return {monthIndex: month.monthIndex, monthMatrix: monthMatrix};
+    const key = `${year}-${month.monthIndex}`;
+    return {key: key, monthIndex: month.monthIndex, monthMatrix: monthMatrix};
 };
 
 const getCalendarMatrix = (year: number): Year => {
     const yearMonthsIndexArray = buildSequenceArray(0, 11);
     const yearArrays = yearMonthsIndexArray.map(monthIndex => getMonthArray(year, monthIndex as MonthIndex));
     const yearMatrix = yearArrays.map(month => getMonthMatrix(year, month));
-    return {year, yearMatrix};
+    const key = `${year}`;
+    return {key, year, yearMatrix};
 };
 
 export default getCalendarMatrix;
+
+console.log(JSON.stringify(getCalendarMatrix(2024), null, 2));
