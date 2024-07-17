@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+
+.calendar {
+    background: linear-gradient(120deg, #063341, #01242f);
+
+    .title {
+        text-align: center;
+        padding-top: 2rem;
+        font-size: clamp(2.2rem, 7vw, 4rem);
+        font-family: 'Tilt Neon', sans-serif;
+        text-shadow: 0 0 20px #61fffa, 0 0 2px #61fffa;
+        color: #f2ffff;
+    }
+}
+.interval {
+    gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(120deg, #063341, #01242f);
+    padding: 1rem 0;
+}
+
+.monthBorderWrapper {
+    background: linear-gradient(45deg, #00908b, #003842);
+    padding: 3px;
+    border-radius: 2.2rem;
+
+    .month {
+        position: relative;
+        background: linear-gradient(120deg, #003842, #00908b);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        background: linear;
+        padding: 1rem;
+        border-radius: 2rem;
+
+        h1 {
+            font-size: clamp(1.5rem, 9vw, 2.5rem);
+            color: #05aeb1;
+            transition: text-shadow 0.3s ease-in-out;
+            text-shadow: 3px 3px 0 #033a5460;
+        }
+
+        .weekLabel {
+            display: flex;
+            gap: 0.5rem;
+            font-size: clamp(0.8rem, 3vw, 1.1rem);
+            color: #b0ccbd;
+            border-bottom: 1px solid #00908b60;
+            margin-bottom: 1rem;
+
+            div {
+                width: clamp(1.8rem, 10vw, 3rem);
+                color: #00908b;
+                text-align: center;
+                padding-bottom: 0.5rem;
+            }
+        }
+    }
+}
+
+.week {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.day {
+    padding: 0.5rem;
+    background-color: #00ada820;
+    border: 2px solid #00908b60;
+    border-radius: 50%;
+
+    height: clamp(1.8rem, 10vw, 3rem);
+    width: clamp(1.8rem, 10vw, 3rem);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: clamp(0.8rem, 3vw, 1.1rem);
+    color: #b0ccbd;
+
+    &.today {
+        border: 3px solid #dbfffe;
+        box-shadow: 0 0 10px #12fff7, 0 0 3px #12fff7, inset 0 0 10px #12fff7, inset 0 0 3px #12fff7;
+        color: #ffffff;
+        text-shadow: 0 0 10px #94fffb;
+    }
+
+    &.notCurrMonth {
+        color: #ffffff10;
+        background-color: transparent;
+        border: none;
+    }
+}
