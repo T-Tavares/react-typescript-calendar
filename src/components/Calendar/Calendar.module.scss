@@ -95,5 +95,11 @@
         color: #ffffff10;
         background-color: transparent;
         border: none;
+
+        &.today {
+            color: #ffffff70;
+            text-shadow: none;
+            opacity: 0.1;
+        }
     }
 }
